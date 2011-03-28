@@ -790,12 +790,19 @@ void RecursiveReverse(struct node** headRef) {
 
 struct node* next = (*headRef)->next;
 struct node* previous = (*headRef);
-//(*headRef)->next = previous;
 (*headRef) = next;
-(*headRef)->next = previous;
 
 if((*headRef) != NULL)
+{
   RecursiveReverse(headRef);
 
-previous->next = NULL;
+}
+
+if((*headRef) == NULL)
+  (*headRef) = previous;
+else
+{
+  next->next = previous;
+  previous->next = NULL;
+}
 }
