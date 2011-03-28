@@ -43,6 +43,7 @@ void ReverseTest();
 void Reverse(struct node** headRef); 
 void RecursiveReverseTest();
 void RecursiveReverse(struct node** headRef); 
+void PrintList(struct node* head);
  
 struct node {
 int data;
@@ -58,17 +59,16 @@ int main()
 //InsertNthTest();
 //SortedInsertTest();
 //TestAppend();
-//Finish the test insert sort..
 //TestInsertSort();
 //TestFrontBackSplit();
 //TestRemoveDuplicates();
 //MoveNodeTest();
 //TestAlternatingSplit();
 //TestShuffleMerge();
-//TestSortedMerge();
+TestSortedMerge();
 //TestSortedIntersect();
 //ReverseTest();
-RecursiveReverseTest();
+//RecursiveReverseTest();
 return 0;
 }
 
@@ -76,23 +76,26 @@ return 0;
 // Build and return the list {1, 2, 3}
 struct node* BuildOneTwoThree() {
 struct node* head = NULL; // Start with the empty list
+Push(&head, 5);
+//Push(&head, 4);
 Push(&head, 3);
 // Use Push() to add all the data
 //Push(&head, 4);
-Push(&head, 2);
 //Push(&head, 2);
+Push(&head, 2);
 Push(&head, 1);
 return(head);
 }
 struct node* BuildOneTwo() {
 struct node* head = NULL; // Start with the empty list
 //Push(&head, 4);
-Push(&head, 3);
 //Push(&head, 3);
 //Push(&head, 3);
 //Push(&head, 3);
-Push(&head,2);
-Push(&head, 1);
+Push(&head, 4);
+//Push(&head,3);
+Push(&head, 2);
+//Push(&head, 1);
 //Push(&head, 1);
 
 // Use Push() to add all the data
@@ -347,7 +350,7 @@ while(curr != NULL)
 //Given a sorted list, insert the node at the right place.
 void SortedInsert(struct node** headRef, struct node* newNode) {
 // Your code...
-struct node* temp;
+struct node* temp = NULL;
 struct node* curr = *headRef;
 if(curr != NULL)
 {
@@ -380,13 +383,9 @@ else
 
 void TestInsertSort() {
 struct node* head = BuildOneTwo();
+PrintList(head);
 InsertSort(&head);
-struct node* temp = head;
-while(temp != NULL)
-{
-  printf("sorted list is %d \n",temp->data);
-  temp = temp->next;
-}
+PrintList(head);
 
 }
 
@@ -395,19 +394,13 @@ struct node* sortedList = NULL;
 struct node* head = *headRef;
 while(head != NULL)
 {
-  SortedInsert(&sortedList,head);
+  struct node* insert = (struct node*)malloc(sizeof(struct node)); 
+  insert->data = head->data;
+  insert->next = NULL; 
+  SortedInsert(&sortedList,insert);
   head = head->next;
-
 }
-
-struct node* p = sortedList;
-while(p != NULL)
-{
-  printf("%d  \n",p->data);
-  p = p->next;
-
-}
-
+(*headRef) = sortedList;
 }
 
 
@@ -450,6 +443,7 @@ temp->next = (*bRef);
 void PrintList(struct node* head)
 {
   struct node* temp = head;
+  int i=0; 
   if(head == NULL)
     printf("Linked list is empty ..... \n \n" );
   else
@@ -682,6 +676,11 @@ while((a != NULL) || (b != NULL))
      MoveNode(&merged,&a);
     else if(a->data > b->data)
      MoveNode(&merged,&b);
+    else
+    {
+      MoveNode(&merged,&b);
+      a = a->next;
+    }
 
   }
   else if(a != NULL)
@@ -690,7 +689,6 @@ while((a != NULL) || (b != NULL))
      MoveNode(&merged,&b);
 
 }
-
 return merged;
 
 }
